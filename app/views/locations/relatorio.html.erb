@@ -1,0 +1,104 @@
+<p id="notice"><%= notice %></p>
+
+<h1><center>Relatório de Locações</center></h1>
+
+<% t = Time.now %>
+<% dia = t.strftime("%d") %>
+<% mes = t.strftime("%m") %>
+<% ano = t.strftime("%Y") %>
+<%# Date.today.strftime("%d/#{mes}/%Y") %>
+<%# ano+"-"+mes+"-"+dia %>
+
+<center>
+  <%= link_to controller: "locations", action: "relatorio", dt_cadastro: dia, dt_mes: mes, dt_ano: ano do %>
+    <%= 'DIA' %>
+  <% end %>|
+
+  <%= link_to controller: "locations", action: "relatorio", dt_cadastro: '', dt_mes: mes, dt_ano: ano do %>
+    <%= 'MÊS' %>
+  <% end %>|
+
+  <%= link_to controller: "locations", action: "relatorio", dt_cadastro: ano, dt_mes: '', dt_ano: ano do %>
+    <%= 'ANO' %>
+  <% end %>|
+
+  <%= link_to controller: "locations", action: "relatorio" do %>
+    <%= 'TODAS LOCAÇÕES' %>
+  <% end %>
+</center>
+
+<br>
+
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <th>Tipo loc</th>
+      <th>Cliente</th>
+      <th>Veículo</th>
+      <th>Valor locação</th>
+      <th>Data Cadastro</th>
+      <th>Data Devolução</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @locations.each do |location| %>
+      <tr>
+        <td><%= location.tipo_loc %></td>
+        <td><%= location.client.nome %></td>
+        <td><%= location.vehicle.nome %></td>
+        <td><%= location.valor_loc %></td>
+        <td><%= location.dt_cadastro.strftime("%d/%m/%Y") %></td>
+        <td>
+          <% if location.dt_devolucao.nil? %>
+            ---
+          <% else %>
+            <%= location.dt_devolucao.strftime("%d/%m/%Y") %>
+          <% end %>
+        </td>
+        <td><%= link_to 'Show', location %></td>
+        <td><%= link_to 'Edit', edit_location_path(location) %></td>
+        <td><%= link_to 'Destroy', location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<table border="1" align="center" width="20%">
+  <tr>
+    <td>Arrecadação do dia:</td> 
+    <td> R$
+      <%= Location.count_by_sql("Select sum(valor_loc) from locations where dt_cadastro = '#{ano}-#{mes}-#{dia}'").round(2) %>
+    </td>
+  </tr>
+  <tr>
+    <td>Arrecadação do mês:</td>
+    <td>R$
+      <%= Location.count_by_sql("Select sum(valor_loc) from locations where extract(month from dt_cadastro) = '#{mes}' and extract(Year from dt_cadastro) = '#{ano}'").round(2) %>
+    </td>
+  </tr>
+  <tr>
+    <td>Arrecadação do ano:</td>
+    <td>R$
+      <%= Location.count_by_sql("Select sum(valor_loc) from locations where extract(Year from dt_cadastro) = '#{ano}'").round(2) %>
+    </td>
+  </tr>
+  <tr>
+    <td>Arrecadação total:</td>
+    <td>R$
+      <%= Location.count_by_sql("Select sum(valor_loc) from locations").round(2) %>
+    </td>
+  </tr>
+</table>
+
+<br>
+<h4>Quantidade Locações de Veículos</h4>
+<%= line_chart Vehicle.group(:nome).sum(:qtd_loc), xtitle: "Veículos", ytitle: "Quantidade Locações" %>
+<%# pie_chart [["SUV",10],["Wagon",5]] %>
+<%# pie_chart @locations.find_by_sql("select l.vehicle_id, SUM(valor_loc) from locations l inner join vehicles on l.vehicle_id = vehicles.id GROUP BY(l.vehicle_id)") %>
+
+<br>
+<%= will_paginate @location %> <!-- Paginação -->

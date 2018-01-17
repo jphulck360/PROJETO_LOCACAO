@@ -1,0 +1,27 @@
+<%= form_for(model_car,:html => { :multipart => true }) do |f| %>
+  <% if model_car.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(model_car.errors.count, "error") %> prohibited this model_car from being saved:</h2>
+
+      <ul>
+      <% model_car.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label 'Imagem' %>
+    <%= f.file_field :photo %>
+  </div>
+
+  <div class="field">
+    <%= f.label :modelo_desc %>
+    <%= f.text_field :modelo_desc %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

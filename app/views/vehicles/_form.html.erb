@@ -1,0 +1,42 @@
+<%= form_for(vehicle) do |f| %>
+  <% if vehicle.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(vehicle.errors.count, "error") %> prohibited this vehicle from being saved:</h2>
+
+      <ul>
+      <% vehicle.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :nome %>
+    <%= f.text_field :nome %>
+  </div>
+
+  <div class="field">
+    <%= f.label 'Preço Locação' %>
+    <%= f.text_field :preco_loc %>
+  </div>
+
+
+  <div class="field">
+    <%= f.label 'Quantidade Locações' %>
+    <%= f.number_field :qtd_loc %>
+  </div>
+
+  <div class="field">
+    <%= f.label 'Status' %>
+    <%= f.select :status, options_for_select([
+      ['DISPONÍVEL',"DISPONÍVEL"],
+      ['INDISPONÍVEL',"INDISPONÍVEL"]
+      ], f.object.status ), :prompt => '--- Selecione ---' 
+    %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

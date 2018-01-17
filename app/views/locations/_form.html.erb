@@ -1,0 +1,185 @@
+<%= form_for(location,:html => { :multipart => true }) do |f| %>
+  <% if location.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(location.errors.count, "error") %> prohibited this location from being saved:</h2>
+
+      <ul>
+      <% location.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <table align="center" width="50%" >
+    
+    <tr id="tb1" style="display: none"> <!-- ENVIADOS -->
+      <td align="center" colspan="3" >
+        <% @marks.each do |mc| %>
+          <%# link_to controller: "vehicles", action: "mostrar", mark_id: mc.id do %> <!-- Lista apenas uma marca -->
+          <%= link_to controller: "locations", action: "new", mark_id: mc.id do %>
+            <%= image_tag mc.photo.url, size:"50", title: "#{mc.marca_desc}" %>
+          <% end %>
+        <% end %>
+      </td>
+    </tr>
+
+    <tr id="tb2" style="display: none"> <!-- ENVIADOS -->
+      <td align="center" colspan="3" >
+        <% @model_cars.each do |mcar| %>
+          <%# link_to controller: "vehicles", action: "mostrar_modelo", model_car_id: mcar.id do %>
+          <%= link_to controller: "locations", action: "new", model_car_id: mcar.id do %>
+            <%= image_tag mcar.photo.url, height: '50', width: '70', title: "#{mcar.modelo_desc}" %>
+          <% end %>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+
+  <table align="center" width="50%" >
+    <center><%= f.label 'Lista de Carros' %></center>
+    <tr id="lista_carro">
+      <td align="center" >
+        <div class="field">
+          <%# f.collection_select(:vehicle_id, @v, :id, :nome) %>
+          <%# @v.each do |carro| %>
+            <%# f.radio_button :vehicle_id, carro.id %>
+            <!-- <label for="<%#carro[1]%>"><%# carro.nome %></label> -->
+          <%# end %>
+          
+          <% @v.each do |carro| %>
+            <td>
+              <label for="<%=carro[0]%>">
+                <%= f.radio_button :vehicle_id, carro.id %>
+                <%= image_tag carro.photo.url,title: "Carro: #{carro.nome}"+"\n"+
+                "Preço da Locação: R$ #{carro.preco_loc}"+"\n"+ 
+                "Marca: #{carro.mark.marca_desc}"+"\n"+
+                "Modelo: #{carro.model_car.modelo_desc}"+"\n"+
+                "Status: #{carro.status}"
+                %>
+              </label>
+            </td>
+          <% end %>
+        </div>
+      </td>
+      <% if @v.nil? %>
+        <center><%= will_paginate @v %></center>
+      <% else %>
+
+      <% end %>
+    </tr>
+  </table>
+
+  <table align="center" width="50%" >
+    <% if @location.tipo_loc.nil? %>
+      <tr>
+        <td align="center">
+          <div class="field">
+            <%= f.label :tipo_loc %>
+            <%= f.select :tipo_loc, options_for_select([
+                ['KM',"KM"],
+                ['LIVRE',"LIVRE"]
+              ], f.object.tipo_loc ), :prompt => '----- Selecione -----'
+            %>
+          </div>
+        </td>
+        <td>
+          <div class="field">
+            <div id="qtd_km" style="display: none">
+              <%= f.label 'Quantidade KM' %>
+              <%= text_field_tag :qtd_km %>
+            </div>
+          </div>
+          <div class="field">
+            <div id="dia_loc" style="display: none">
+              <%= f.label 'Dias Locação' %>
+              <%= text_field_tag :dia_loc %>
+            </div>
+          </div>
+        </td>
+      </tr>
+    <% else %>
+
+      <td align="center" colspan="3">
+        <div class="field">
+          <%= f.label :dt_devolucao %>
+          <%= f.date_select :dt_devolucao %>
+        </div>
+      </td>
+
+    <% end %>
+
+    <tr>
+      <% if @location.dt_cadastro.nil? %>
+        <td align="center" >
+          <div class="field">
+            <%= f.label :dt_cadastro %>
+            <%= f.date_select :dt_cadastro %>
+          </div>
+        </td>
+      <% end %>
+
+      <% if @location.client_id.nil? %>
+        <td align="center" >
+          <div class="field">
+            <%= f.label 'Cliente' %>
+            <%= f.collection_select(:client_id, Client.find_by_sql("select * from clients where status='DISPONÍVEL'"), :id, :nome) %>
+          </div>
+        </td>
+      <% else %>
+        <td align="center" >
+          <div class="field">
+            <%= f.label 'Cliente' %>
+            <%= f.collection_select(:client_id, Client.find_by_sql("select * from clients where status='DISPONÍVEL' or id = #{@location.client_id}"), :id, :nome) %>
+          </div>
+        </td>
+      <% end %>
+
+      <td>
+        
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="3" align="center">
+        <div class="actions">
+          <%= f.submit %>
+        </div>
+      </td>
+    </tr>
+  </table>
+<% end %>
+
+<table align="center" width="30%">
+  <tr>
+    <td colspan="2" align="center">
+      <div>
+        <button id="marcas">MARCAS</button> <!-- Botão lista enviados -->
+      </div>
+    </td>
+    <td colspan="2" align="center">
+      <div>
+        <button id="modelos">MODELOS</button> <!-- Botão lista pendentes -->
+      </div>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  
+  $("#marcas").click(function(){
+    $("#tb2").hide("fast"); // esconde pendentes
+    $("#tb1").show("slow"); // mostra enviados
+  });
+
+  $("#modelos").click(function(){
+    $("#tb1").hide("fast"); // esconde enviados
+    $("#tb2").show("slow"); // mostra pendentes
+  });
+
+  $("body").ready(function(){
+    $("#lista_carro").hide("fast"); // esconde pendentes
+    $("#lista_carro").show("slow"); // mostra enviados
+  });
+
+</script>

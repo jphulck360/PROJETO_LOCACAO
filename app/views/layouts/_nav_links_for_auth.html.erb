@@ -1,0 +1,8 @@
+<!-- Caso estiver logado o menu aparece assim: -->
+<% if user_signed_in? %>
+  <li><%= link_to 'Editar Conta', edit_user_registration_path %></li>
+  <li><%= link_to 'Sair', destroy_user_session_path, :method=>'delete' %></li>
+<% else %><!-- Caso não estiver logado aparece os esse(s) item(ns) -->
+  <li><%= link_to 'Login', new_user_session_path %></li>
+  <li><%= link_to 'Cadastre-se', new_user_registration_path %></li>
+<% end %>

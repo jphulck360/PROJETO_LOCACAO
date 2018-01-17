@@ -1,0 +1,73 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+/**************** Está sendo utilizado um rodapé, sendo mostrado em todas as páginas ****************/
+#rodape
+{
+	background-color: #eee;
+	border: 1px solid black;
+	height: 60px;
+	width: 100%;
+	margin: 10px 0px 0px 0px;
+}
+
+#rodape p
+{
+	text-align: center;
+}
+/****************************************************************************************************/
+
+/************************ Referencia a tabela de 'index.html.erb - materials' ***********************/
+#tabela_central
+{
+	margin: auto;
+	width: 60%;
+}
+
+#tabela_show
+{
+	border: 1px solid;
+	margin: auto;
+	width: 50%;
+	overflow:scroll;
+}
+
+#texto /* Utilizado para quebra de texto em => 'app/views/orders/show.html.erb' */
+{
+	word-break: break-all;
+}
+/****************************************************************************************************/
+
+.authform {
+  padding-top: 30px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.authform form {
+  @extend .well;
+  @extend .well-lg;
+  padding-bottom: 40px;
+}
+.authform .right {
+  float: right !important;
+}
+.authform .button {
+  @extend .btn;
+  @extend .btn-primary;
+}
+.authform fieldset {
+  @extend .well;
+}

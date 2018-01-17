@@ -1,0 +1,14 @@
+rails g scaffold Pedidos justif:text objetivo:text tipo_acao:string publico:string faixa_etaria:integer perfil:string dt_inicial:date dt_final:date
+
+rails g scaffold Entidade nome:string email:string telefone:integer cpf:integer responsavel:string cargo:string endereco:string bairro:string cidade:string uf:string materiais:references
+=============================================
+
+rails g scaffold model_car modelo_desc:string
+
+rails g scaffold mark marca_desc:string
+
+rails g scaffold vehicle nome:string
+
+rails g scaffold location tipo_loc:string valor_loc:float dt_cadastro:date
+
+rails g scaffold client nome:string telefone:string pais:string cidade:string endereco:string

@@ -1,0 +1,14 @@
+<%# add navigation links to this file %>
+
+<!-- Caso estiver logado o menu aparece assim: -->
+<% if user_signed_in? %>
+	<li><%= link_to 'Usuários', users_path('users') %></li> <!-- Link de Materiais -->
+	<li><%= link_to 'Locações', locations_path %></li>
+	<li><%= link_to 'Clientes', clients_path %></li>
+	<li><%= link_to 'Modelos', model_cars_path %></li>
+  	<li><%= link_to 'Veículos', vehicles_path %></li>
+  	<li><%= link_to 'Marcas', marks_path %></li>
+  	<li><%= link_to 'Modelos', model_cars_path %></li>
+  	<li><%= link_to 'Relatório', locations_relatorio_path %></li>
+<% else %>
+<% end %>

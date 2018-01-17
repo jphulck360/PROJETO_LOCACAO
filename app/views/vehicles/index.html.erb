@@ -1,0 +1,52 @@
+<p id="notice"><%= notice %></p>
+
+<h1><center>Veículos</center></h1>
+
+<table align="center" class="table table-condensed">
+  <thead>
+    <tr>
+      <th><%= sortable "id" %></th>
+      <th><%= sortable "nome" %></th>
+      <th><%= sortable "qtd_loc" %></th>
+      <th><%= sortable "preco_loc" %></th>
+      <th><%= sortable "mark_id" %></th>
+      <th><%= sortable "model_car_id" %></th>
+      <th><%= sortable "status" %></th>
+      <%# link_to , :sort => "" %>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @vehicles.each do |vehicle| %>
+      <tr>
+        <td><%= vehicle.id %></td>
+        <td><%= vehicle.nome %></td>
+        <td><%= vehicle.qtd_loc %></td>
+        <td><%= vehicle.preco_loc %></td>
+        <td>
+          <%= vehicle.mark.marca_desc %>
+          <% @marks_index.each do |mc| %>
+            <% if mc.id == vehicle.mark.id %>
+              <%= image_tag mc.photo.url, size:"25" %>
+            <% end %>
+          <% end %>
+        </td>
+        <td><%= vehicle.model_car.modelo_desc %></td>
+        <% if vehicle.status == "DISPONÍVEL" %>
+          <td style="color: green"><%= vehicle.status %></td>
+        <% else %>
+          <td style="color: red"><%= vehicle.status %></td>
+        <% end %>
+        <td><%= link_to 'Show', vehicle %></td>
+        <td><%= link_to 'Edit', edit_vehicle_path(vehicle) %></td>
+        <td><%= link_to 'Destroy', vehicle, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= will_paginate @vehicles %>
+<br>
+<%= link_to 'New Vehicle', new_vehicle_path %>

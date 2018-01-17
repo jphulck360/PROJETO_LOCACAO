@@ -1,0 +1,54 @@
+cd Documentos/RAILS/EXEMPLOS_APPS/
+
+
+controller
+
+def relatorio
+    #@locations = Location.all
+    #@vehicles = Vehicle.where("mark_id = ?",params[:mark_id])
+
+    t = Time.now
+    dia = t.strftime("%d")
+    mes = t.strftime("%m")
+    ano = t.strftime("%Y")
+    Date.today.year
+
+    if params[:dt_cadastro].nil?
+      flash[:notice] = "Não preenchido!"
+      @locations = Location.all
+    
+    elsif params[:dt_cadastro] == dia and params[:dt_mes] == mes and params[:dt_ano] == ano
+      flash[:notice] = "Mostrando o dia!"
+      @locations = Location.where('extract(day from dt_cadastro) = ?', params[:dt_cadastro])
+
+    elsif params[:dt_mes] == mes and params[:dt_ano] == ano
+      flash[:notice] = "Mostrando o mês"
+      @locations = Location.where('extract(month from dt_cadastro) = ?', params[:dt_cadastro])
+
+    elsif params[:dt_mes] == '' and params[:dt_ano] == ano
+      flash[:notice] = "Mostrando o ano"
+      @locations = Location.where('extract(Year from dt_cadastro) = ?', params[:dt_cadastro])
+    end
+  end
+
+
+
+view => relatorio
+
+<center>
+  <%= link_to controller: "locations", action: "relatorio", dt_cadastro: dia, dt_mes: mes, dt_ano: ano do %>
+    <%= 'DIA' %>
+  <% end %>|
+
+  <%= link_to controller: "locations", action: "relatorio", dt_cadastro: mes, dt_mes: mes, dt_ano: ano do %>
+    <%= 'MÊS' %>
+  <% end %>|
+
+  <%= link_to controller: "locations", action: "relatorio", dt_cadastro: ano, dt_mes: '', dt_ano: ano do %>
+    <%= 'ANO' %>
+  <% end %>|
+
+  <%= link_to controller: "locations", action: "relatorio" do %>
+    <%= 'TODAS LOCAÇÕES' %>
+  <% end %>
+</center>

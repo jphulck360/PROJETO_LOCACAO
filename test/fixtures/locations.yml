@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tipo_loc: MyString
+  valor_loc: 1.5
+  dt_cadastro: 2017-03-17
+
+two:
+  tipo_loc: MyString
+  valor_loc: 1.5
+  dt_cadastro: 2017-03-17

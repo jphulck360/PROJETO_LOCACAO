@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Tipo loc:</strong>
+  <%= @location.tipo_loc %>
+</p>
+
+<p>
+  <strong>Valor loc:</strong>
+  <%= @location.valor_loc %>
+</p>
+
+<p>
+  <strong>Dt cadastro:</strong>
+  <%= @location.dt_cadastro %>
+</p>
+
+<%= link_to 'Edit', edit_location_path(@location) %> |
+<%= link_to 'Back', locations_path %>

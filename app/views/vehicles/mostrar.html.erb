@@ -1,0 +1,42 @@
+ <p id="notice"><%= notice %></p>
+
+<h1><center>Veículos</center></h1>
+
+<table border="1" align="center" width="50%">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Preço Locação</th>
+      <th>Marca</th>
+      <th>Modelo</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @vehicles.each do |vehicle| %>
+      <tr>
+        <td><%= vehicle.id %></td>
+        <td><%= vehicle.nome %></td>
+        <td><%= vehicle.preco_loc %></td>
+        <td align="center">
+          <%= vehicle.mark.marca_desc %>
+          <% @marks_index.each do |mc| %>
+            <% if mc.id == vehicle.mark.id %>
+              <%= image_tag mc.photo.url, size:"25" %>
+            <% end %>
+          <% end %>
+        </td>
+        <td><%= vehicle.model_car.modelo_desc %></td>
+        <td><%= link_to 'Show', vehicle %></td>
+        <td><%= link_to 'Edit', edit_vehicle_path(vehicle) %></td>
+        <td><%= link_to 'Destroy', vehicle, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Vehicle', new_vehicle_path %>

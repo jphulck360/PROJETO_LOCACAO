@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Nome:</strong>
+  <%= @vehicle.nome %>
+</p>
+
+<p>
+  <strong>Preço da Locação/dia:</strong>
+  R$ <%= @vehicle.preco_loc %>
+</p>
+
+<p>
+  <strong>Quantidade de Locações:</strong>
+  <%= @vehicle.qtd_loc %>
+</p>
+
+<p>
+  <strong>Marca:</strong>
+  <%= @vehicle.mark.marca_desc %>
+</p>
+
+<p>
+  <strong>Modelo:</strong>
+  <%= @vehicle.model_car.modelo_desc %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @vehicle.status %>
+</p>
+
+<%= link_to 'Edit', edit_vehicle_path(@vehicle) %> |
+<%= link_to 'Back', vehicles_path %>
